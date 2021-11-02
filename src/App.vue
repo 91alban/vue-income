@@ -1,26 +1,49 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Header :totalIncome="state.totalIncome" />
+  <Form />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { computed, reactive } from '@vue/reactivity';
+import Header from './components/Header.vue';
+import Form from './components/Form.vue';
 
 export default {
-  name: 'App',
+  setup() {
+    const state = reactive({
+      income: [],
+      totalIncome: computed(() => {
+        let temp = 0;
+        if (state.income.length > 0) {
+          for (let i = 0; i < state.income.length; i++) {
+            temp += state.income[i].value;
+          }
+        }
+
+        return temp;
+      })
+    })
+
+    return {
+      state
+    }
+  },
   components: {
-    HelloWorld
+    Header,
+    Form
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+body {
+  background: #eee;
 }
 </style>
